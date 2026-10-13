@@ -1,0 +1,15 @@
+{
+  "name": "scope-review",
+  "version": "0.1.0",
+  "description": "Understand what your coding agent just did: review a change as plain-word decisions, with the code hidden until you ask",
+  "type": "module",
+  "bin": { "scope": "bin/scope.js" },
+  "scripts": { "test": "node --test" },
+  "engines": { "node": ">=20" },
+  "files": ["bin", "src", "page", "INSTRUCTIONS.md"],
+  "keywords": ["code-review", "ai", "coding-agent", "claude-code", "diff", "cli"],
+  "repository": { "type": "git", "url": "git+https://github.com/larry-adesola/scope.git" },
+  "homepage": "https://github.com/larry-adesola/scope#readme",
+  "bugs": "https://github.com/larry-adesola/scope/issues",
+  "license": "MIT"
+}

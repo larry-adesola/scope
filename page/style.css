@@ -1,0 +1,868 @@
+/* Soft grey page, white floating cards, one blue. Type stays large and well spaced for easy reading: left aligned text, no italics. */
+:root {
+  color-scheme: light dark;
+  --paper: light-dark(#f1f1f3, #0f1114);
+  --card: light-dark(#ffffff, #1a1d22);
+  --ink: light-dark(#17191e, #eceef2);
+  --soft: light-dark(#626873, #a2a8b3);
+  --faint: light-dark(#9a9fa8, #6d737e);
+  --line: light-dark(#e4e5e9, #2c3038);
+  --accent: light-dark(#2a6fdb, #7fb0ff);
+  --accent-bg: light-dark(#dcebff, #1a2c4a);
+  --on-accent: light-dark(#ffffff, #0b1524);
+  --note: light-dark(#fff2a6, #4a4318);
+  --high: light-dark(#b3261e, #ff9b91);
+  --high-bg: light-dark(#fde7e4, #4a1d19);
+  --medium: light-dark(#7a4f00, #f2c96b);
+  --medium-bg: light-dark(#fcefcf, #45340f);
+  --low: light-dark(#1f6b3d, #8fd3a0);
+  --low-bg: light-dark(#e1f4e6, #1b3a25);
+  --done: light-dark(#2f9e5b, #5fbf85);
+  --seen: light-dark(#f2c744, #d9b23a);
+  --shadow: 0 1px 2px light-dark(rgb(16 24 40 / 0.06), rgb(0 0 0 / 0.4)), 0 14px 32px -12px light-dark(rgb(16 24 40 / 0.16), rgb(0 0 0 / 0.6));
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 18px/1.7 'Avenir Next', Avenir, 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  word-spacing: 0.06em;
+}
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 5rem;
+}
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 1.35;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+}
+
+p,
+ul,
+ol {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.2em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+code,
+kbd {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+/* The bar across the top */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 0.6rem 1.1rem 0.6rem 0.7rem;
+  margin-bottom: 2.5rem;
+}
+.bar nav {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+}
+.bar nav a {
+  color: var(--soft);
+  text-decoration: none;
+}
+.bar nav a:hover {
+  color: var(--ink);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+.tile {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 10px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+.tile i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.tile i:nth-child(2) {
+  background: var(--accent);
+}
+
+/* Home */
+.hero {
+  text-align: center;
+  font-size: 2.4rem;
+  line-height: 1.25;
+  margin: 1rem 0 0.75rem;
+}
+.hero span {
+  display: block;
+  color: var(--faint);
+}
+.lede {
+  font-size: 1.05rem;
+  color: var(--soft);
+}
+.hero-block {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+/* The floating tile that holds the orb. It leans towards the pointer: app.js sets --rx and --ry. */
+.hero-tile {
+  width: 6.5rem;
+  height: 6.5rem;
+  margin: 0.5rem auto 1.5rem;
+  display: grid;
+  place-items: center;
+  background: var(--card);
+  border-radius: 28px;
+  box-shadow: var(--shadow), 0 34px 44px -22px light-dark(rgb(16 24 40 / 0.3), rgb(0 0 0 / 0.7));
+  transform: perspective(520px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.25s ease-out;
+}
+.orb {
+  display: block;
+}
+
+.quiet {
+  color: var(--soft);
+  font-size: 0.9rem;
+}
+details.quiet {
+  margin-bottom: 1.5rem;
+}
+details.quiet summary {
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.banner {
+  background: var(--medium-bg);
+  color: var(--medium);
+  border-radius: 14px;
+  padding: 0.9rem 1.2rem;
+}
+
+.pill,
+.risk {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.15rem 0.75rem;
+  border-radius: 2rem;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.pill {
+  background: var(--card);
+  color: var(--soft);
+  box-shadow: var(--shadow);
+  margin-bottom: 0.75rem;
+}
+.risk-high {
+  background: var(--high-bg);
+  color: var(--high);
+}
+.risk-medium {
+  background: var(--medium-bg);
+  color: var(--medium);
+}
+.risk-low {
+  background: var(--low-bg);
+  color: var(--low);
+}
+
+.story {
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.25rem;
+}
+.story h2 a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.story h2 a:hover {
+  color: var(--accent);
+}
+.story > p {
+  color: var(--soft);
+}
+
+
+/* Overview */
+.asked {
+  font-size: 1.15rem;
+  margin: 0;
+}
+.tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.05rem 0.6rem;
+  margin-right: 0.6rem;
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--soft);
+  white-space: nowrap;
+}
+.tag-now,
+.tag-asked {
+  background: var(--low-bg);
+  color: var(--low);
+}
+.tag-assumed {
+  background: var(--medium-bg);
+  color: var(--medium);
+}
+.changes {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: grid;
+  gap: 1rem;
+}
+.changes p {
+  margin: 0 0 0.25rem;
+}
+.changes .before {
+  color: var(--soft);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.75rem 0 1rem;
+}
+.heading {
+  margin: 2.25rem 0 0.9rem;
+}
+.hint {
+  color: var(--soft);
+  font-size: 0.95rem;
+}
+.hint strong {
+  color: var(--ink);
+}
+.hint.foot {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+.rows {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.rows a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--card);
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 14px;
+  border-left: 6px solid var(--line);
+  box-shadow: var(--shadow);
+  padding: 0.8rem 1.1rem;
+}
+.rows a[data-state='done'] {
+  border-color: var(--done);
+}
+.rows a[data-state='seen'] {
+  border-color: var(--seen);
+}
+.rows .row-title {
+  flex: 1;
+}
+.rows .tag {
+  margin: 0;
+}
+
+/* Clean-up */
+.story[data-state='done'] {
+  opacity: 0.6;
+}
+.bars {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: grid;
+  gap: 0.9rem;
+}
+.bars li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.2rem 1rem;
+}
+.bars a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.bars .bar {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  height: 0.6rem;
+  width: var(--w);
+  min-width: 0.6rem;
+  border-radius: 1rem;
+  background: var(--accent);
+}
+.things {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.things li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+  align-items: baseline;
+}
+.things .unchecked {
+  color: var(--high);
+}
+
+/* The stop */
+.story-name {
+  margin-bottom: 0.9rem;
+  color: var(--soft);
+}
+
+/* The route: one line, one circle per stop, like a transit map. */
+.route {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.25rem;
+  display: flex;
+  align-items: center;
+}
+.route li {
+  display: flex;
+  align-items: center;
+}
+.route li + li {
+  flex: 1;
+}
+.route li + li::before {
+  content: '';
+  flex: 1;
+  min-width: 0.75rem;
+  border-top: 4px solid var(--line);
+}
+.route a {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 4px solid var(--card);
+  background: var(--line);
+  box-shadow: var(--shadow);
+}
+.route li.passed::before {
+  border-color: var(--accent);
+}
+.route a[data-state='done'] {
+  background: var(--done);
+}
+.route a[data-state='seen'] {
+  background: var(--seen);
+}
+.route a[data-state='left'] {
+  background: var(--high);
+}
+.route a[aria-current] {
+  width: 32px;
+  height: 32px;
+  box-shadow: 0 0 0 3px var(--accent), var(--shadow);
+  margin: 0 5px;
+}
+
+.claim {
+  margin: 1.75rem 0;
+}
+.claim h1 {
+  font-weight: 500;
+}
+.pill-assumed {
+  background: var(--medium-bg);
+  color: var(--medium);
+  box-shadow: none;
+}
+.why {
+  font-size: 1.1rem;
+  color: var(--soft);
+}
+.instead {
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 0.9rem 1.2rem;
+}
+.peek {
+  color: var(--accent);
+}
+.peeked,
+p:has(> .peek[aria-expanded='false']) {
+  margin-bottom: 1.75rem;
+}
+p:has(> .peek[aria-expanded='true']) {
+  margin-bottom: 0.9rem;
+}
+.proof {
+  color: var(--soft);
+  font-size: 0.9rem;
+}
+
+.guess {
+  background: var(--accent-bg);
+  border-radius: 20px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.75rem;
+}
+.guess-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  min-height: 3.25rem;
+}
+.orb-tile {
+  width: 3.25rem;
+  height: 3.25rem;
+  display: grid;
+  place-items: center;
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.guess .question {
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+.guess .verdicts {
+  margin: 1rem 0 0;
+}
+.guess + .guess {
+  margin-top: -0.5rem;
+}
+.guess .answer {
+  margin: 0;
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 0.9rem 1.2rem;
+}
+
+.file {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--soft);
+  margin-bottom: 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+.code {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 0.9rem 0;
+  margin-bottom: 1.75rem;
+  overflow: hidden;
+  font: 15px/1.9 var(--mono);
+  letter-spacing: 0;
+  word-spacing: 0;
+}
+.line {
+  display: grid;
+  grid-template-columns: 4ch 2ch 1fr;
+  gap: 0 0.5rem;
+  padding: 0 1.1rem;
+}
+.line .num {
+  color: var(--faint);
+  text-align: right;
+  user-select: none;
+}
+.line .sign {
+  user-select: none;
+}
+.line .text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 2;
+}
+.line-add {
+  background: var(--low-bg);
+  color: var(--low);
+}
+.line-del {
+  background: var(--high-bg);
+  color: var(--high);
+}
+
+/* A word with a meaning attached, and the card that shows it. */
+.term {
+  all: unset;
+  cursor: pointer;
+  text-decoration: underline dotted var(--accent) 2px;
+  text-underline-offset: 0.25em;
+}
+.term:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.term[aria-expanded='true'] {
+  background: var(--accent-bg);
+  border-radius: 4px;
+}
+.meaning {
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 0.8rem 1.1rem;
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.meaning p {
+  margin: 0;
+}
+.meaning strong {
+  display: block;
+}
+.meaning .meaning {
+  margin: 0.6rem 0 0;
+  box-shadow: none;
+  background: var(--paper);
+}
+
+/* Buttons */
+button,
+.button {
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: inherit;
+  min-height: 3rem;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+button:hover,
+.button:hover {
+  border-color: var(--accent);
+}
+button[aria-pressed='true'],
+.button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+kbd {
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  padding: 0 0.45em;
+  opacity: 0.6;
+}
+
+.verdicts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--soft);
+  margin-bottom: 0.4rem;
+}
+
+/* The note is a sticky note. */
+textarea {
+  width: 100%;
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--ink);
+  background: var(--note);
+  border: 0;
+  border-radius: 4px 4px 14px 4px;
+  box-shadow: var(--shadow);
+  padding: 0.8rem 1rem;
+  resize: vertical;
+}
+
+nav.steps {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2.25rem;
+}
+
+/* The map */
+.legend {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  color: var(--soft);
+}
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.legend .square {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.squares {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.9rem;
+}
+
+.square {
+  width: 3rem;
+  height: 3rem;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 2px solid var(--line);
+  background: var(--paper);
+  color: var(--on-accent);
+  font-size: 1.3rem;
+  text-decoration: none;
+}
+a.square {
+  box-shadow: var(--shadow);
+}
+.square[data-state='done'] {
+  background: var(--done);
+  border-color: var(--done);
+}
+.square[data-state='seen'] {
+  background: var(--seen);
+  border-color: var(--seen);
+}
+.square[data-state='left'] {
+  border-color: var(--high);
+  border-style: dashed;
+}
+
+/* Motion. All of it is skipped when the reader has asked their device for less movement. */
+@media (prefers-reduced-motion: no-preference) {
+  /* A new screen arrives piece by piece: sideways between stops, upwards otherwise. */
+  main[data-enter] > :not(.bar) {
+    animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  }
+  main[data-enter='forward'] > :not(.bar) {
+    animation-name: from-right;
+  }
+  main[data-enter='back'] > :not(.bar) {
+    animation-name: from-left;
+  }
+  main[data-enter] > :nth-child(3) {
+    animation-delay: 50ms;
+  }
+  main[data-enter] > :nth-child(4) {
+    animation-delay: 100ms;
+  }
+  main[data-enter] > :nth-child(5) {
+    animation-delay: 150ms;
+  }
+  main[data-enter] > :nth-child(6) {
+    animation-delay: 200ms;
+  }
+  main[data-enter] > :nth-child(7) {
+    animation-delay: 250ms;
+  }
+  main[data-enter] > :nth-child(n + 8) {
+    animation-delay: 300ms;
+  }
+
+  /* Along the route: the line draws up to the stop you arrive at, then its circle lands. */
+  main[data-enter] .route li:has(> a[aria-current])::before {
+    transform-origin: left;
+    animation: draw 0.5s ease-out backwards;
+  }
+  main[data-enter] .route a[aria-current] {
+    animation: land 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) 0.2s backwards;
+  }
+
+  .hero-tile {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .story,
+  button,
+  .button,
+  a.square,
+  .rows a,
+  .peek,
+  textarea {
+    transition: translate 0.2s ease-out, rotate 0.2s ease-out, scale 0.1s ease-out, box-shadow 0.2s ease-out, border-color 0.15s, background-color 0.15s, color 0.15s, opacity 0.2s;
+  }
+  .story:hover {
+    translate: 0 -3px;
+  }
+  button:hover,
+  .button:hover,
+  .rows a:hover {
+    translate: 0 -2px;
+  }
+  button:active,
+  .button:active {
+    scale: 0.96;
+    translate: 0 0;
+  }
+  main:not([data-enter]) button[aria-pressed='true'] {
+    animation: press 0.3s ease-out;
+  }
+
+  .answer.fresh,
+  .peeked.fresh,
+  .meaning {
+    animation: unfold 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  button.term:hover,
+  button.term:active {
+    translate: none;
+    scale: none;
+  }
+
+  /* On the clean-up screen each bar grows to its length, heaviest first. */
+  main[data-enter] .bar {
+    transform-origin: left;
+    animation: draw 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) calc(0.3s + var(--n) * 70ms) backwards;
+  }
+
+
+  /* The sticky note sits a little crooked and straightens when you write on it. */
+  textarea {
+    rotate: -0.6deg;
+  }
+  textarea:focus {
+    rotate: 0deg;
+    translate: 0 -2px;
+  }
+
+  main[data-enter] a.square {
+    animation: land 0.45s cubic-bezier(0.3, 1.6, 0.5, 1) calc(0.25s + var(--n) * 50ms) backwards;
+  }
+  a.square:hover {
+    translate: 0 -3px;
+    rotate: -5deg;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes from-right {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+}
+@keyframes from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+}
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes land {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+@keyframes press {
+  40% {
+    transform: scale(0.94);
+  }
+  70% {
+    transform: scale(1.04);
+  }
+}
+@keyframes unfold {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+}
+@keyframes float {
+  50% {
+    translate: 0 -7px;
+  }
+}
