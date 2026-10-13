@@ -4,8 +4,6 @@ Understand what your coding agent just did, without reading a wall of code.
 
 Scope turns a change into a short list of **decisions**, in plain words. You agree or disagree with each one. The code stays hidden until you ask for it. Your verdicts go into a notes file, and your agent fixes what you did not like.
 
-![A decision screen: the choice in plain words, why, the other option, a guess question, and the code hidden behind a button](docs/images/decision.jpg)
-
 ## Why
 
 Coding agents write changes faster than anyone can review them. A diff viewer does not help much, because the real problem is not the code:
@@ -89,8 +87,6 @@ It reads your verdicts and makes the changes.
 **Decisions.** One per screen. The ones the agent assumed come first, riskiest at the top. Each shows the choice, why, and the option the agent did not take. Risky ones start with a question you answer in your head before seeing the answer. A button shows the few lines of code behind the decision, and hides them again. You press Agree, Disagree, or I don't get it.
 
 **Clean-up.** How many lines each decision cost, new code that copies code you already have, changed code that no decision explains, and every new function.
-
-![The clean-up screen, with a bar showing how many lines each decision cost](docs/images/clean-up.jpg)
 
 **Map and quiz.** What you have and have not looked at, then up to three questions to check you understood the change.
 
