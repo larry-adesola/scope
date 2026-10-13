@@ -15,7 +15,7 @@ const list = (heading, items) => items.length && console.error(`\n${heading}\n${
 
 const [command] = process.argv.slice(2)
 const root = findRoot(process.cwd())
-if (!root) fail('This folder is not a git project. Scope uses git to see what changed.')
+if (!root && [undefined, 'init', 'check'].includes(command)) fail('This folder is not a git project. Scope uses git to see what changed.')
 
 function load() {
   let loaded
